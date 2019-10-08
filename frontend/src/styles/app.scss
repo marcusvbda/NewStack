@@ -1,0 +1,85 @@
+body {
+    background-color : #E9EBEE;
+}
+#app {
+    height:  100vh;
+}
+.carousel-item {
+ height: 65vh;
+ min-height: 350px;
+ background: no-repeat center center scroll;
+ -webkit-background-size: cover;
+ -moz-background-size: cover;
+ -o-background-size: cover;
+ background-size: cover;
+}
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}
+.nav-item {
+  font-weight: 300;
+}
+.button {
+  &.block {
+    width: 100%;
+  }
+  cursor : pointer;
+  text-decoration: unset!important;
+  // border-radius: 5px;
+  font-size: 14px;
+  font-weight: 300;
+  padding: 5px 30px 7px 30px;
+  transition: .5s;
+  border: unset;
+  &:disabled {
+    opacity: .2;
+    &:hover {
+      
+    }
+  }
+  &.primary {
+    color: white!important;
+    background-color : #3689df;
+    
+  }
+}
+
+a {
+  &.link{
+    font-size: 13px;
+    font-weight: 300;
+  }
+}
+.sub-title {
+  font-weight: 100;
+  font-size: 12px;
+}
+.card { 
+  border-radius:  unset;
+}
+
+.dropdown-menu {
+  border-radius: unset;
+  .dropdown-item {
+    font-size: 14px;
+    font-weight: 100;
+  }
+}
+
+.nav-link {
+  font-size: 14px;
+}
+
+.el-message-box {
+  border-radius: unset;
+  .el-button {
+    border-radius: unset;
+  }
+}

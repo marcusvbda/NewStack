@@ -1,0 +1,9 @@
+export default  {
+    app_title : "App Name",
+    app_title_html : "<b style='font-weight:900;'>App</b>Name",
+    server_route : "http://localhost:8090",
+    icon : "../public/assets/imgs/robot.png",
+    facebook_app_id : "***********",
+    facebook_app_version : "v4.0",
+    google_app_id : "*****************"
+}
