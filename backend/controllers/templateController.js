@@ -1,8 +1,7 @@
-const _this = {
-    getcsrftoken : (req, res) => {
+const templateController = function() {
+    this.getcsrftoken = (req, res) => {
         let token = req.csrfToken()
-        return res.json({ csrfToken: token });
+        return res.json({ csrfToken: token })
     }
-};
-
-module.exports  = _this;
+}
+module.exports  = new templateController()
