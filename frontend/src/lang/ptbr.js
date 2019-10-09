@@ -62,5 +62,6 @@ export default {
     "Sign in with" : "Entrar com o",
     "Overview" : "Visão Geral",
     "User Data" : "Dados de Usuário",
-    "Data edited successfully" : "Dados alterados com sucesso"
+    "Data edited successfully" : "Dados alterados com sucesso",
+    "Settings" : "Configurações"
 }

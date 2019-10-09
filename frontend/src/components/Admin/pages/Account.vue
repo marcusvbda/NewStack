@@ -1,12 +1,14 @@
 <template>
     <admin-template ref="template">
-        <div class="col-md-6 col-sm-12 container mt-3">
+        <div class="col-md-6 col-sm-12 container mt-4">
             <div class="card">
-                <div class="card-body">
-                    <template v-if="provider">
+                <template v-if="provider">
+                    <div class="card-header">
                         <div class="d-flex justify-content-center align-items-center">
                             <img class="ml-2 provider icon mr-2" :class="provider" :src="`../public/assets/imgs/${provider}.png`" />
                         </div>
+                    </div>
+                    <div class="card-body">
                         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="form-signin mt-3">
                             <div class="d-flex">
                                 <div class="col-md-6 col-sm-12">
@@ -24,15 +26,20 @@
                                     </el-form-item>
                                 </div>
                             </div>
-                            <div class="d-flex flex-column mt-4">
+                            <div class="d-flex flex-column mt-4" >
                                 <button href="#" class="button primary ml-auto" type="button" @click="submitForm">{{$lang("Save")}}</button>
                             </div>
                         </el-form>
-                    </template>
-                    <template v-else>
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="card-header">
                         <div class="d-flex justify-content-center align-items-center">
-                            <h4 class="mb-0">{{$lang("User Data")}}</h4>
+                            <h5 class="mb-0">{{$lang("User Data")}}</h5>
+                            <span class="id-content">{{ruleForm._id}}</span>
                         </div>
+                    </div>
+                    <div class="card-body">
                         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="form-signin mt-3">
                             <div class="d-flex">
                                 <div class="col-md-6 col-sm-12">
@@ -72,8 +79,8 @@
                                 <button href="#" class="button primary ml-auto" type="button" @click="submitForm">{{$lang("Save")}}</button>
                             </div>
                         </el-form>
-                    </template>
-                </div>
+                    </div>
+                </template>
             </div>
         </div>
     </admin-template>
@@ -104,11 +111,12 @@ export default {
     watch: {
         "ruleForm.password"(val) {
             if(!val) this.ruleForm.retype_password = null
-        }
+        },
     },
     mounted() {
         this.$root.sublinks = [
-            {active : true, name : this.$lang("Overview"), route : "account"}
+            {active : true, name : this.$lang("User Data"), route : "account"},
+            {active : false, name : this.$lang("Settings"), route : "settings"},
         ]
         this.getAccountData("overview")
     },
@@ -164,5 +172,10 @@ export default {
             filter: invert(100%);
         }
     }
+}
+.id-content {
+    margin-left: 10px;
+    background-color: #e0e0e0;
+    padding: 5px 10px 5px 10px;
 }
 </style>
