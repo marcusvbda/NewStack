@@ -23,6 +23,7 @@ app.use(cors({
 app.use('/template', require('./routes/template'))
 app.use('/auth', require('./routes/auth'))
 app.use('/debug', require('./routes/debug'))
+app.use('/account', require('./routes/account'))
 
 const port = process.env.SERVER_PORT
 app.listen(port, () => {

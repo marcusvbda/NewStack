@@ -134,10 +134,10 @@ export default {
             return callback()
         },
         submitForm() {
-            this.$update_csrf(() => {
-                this.$refs.ruleForm.validate((valid) => {
-                    if (!valid) return
-                    this.loading = this.$loading()
+            this.$refs.ruleForm.validate((valid) => {
+                if (!valid) return
+                this.loading = this.$loading()
+                this.$update_csrf(() => {
                     this.$http.post(`${this.$constants.server_route}/auth/signup`,this.ruleForm).then(res=>{
                         res = res.data
                         if(res.message) this.$message({showClose: true, message : this.$lang(res.message.content,res.message.params),type: res.message.type})

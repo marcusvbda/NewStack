@@ -59,5 +59,8 @@ export default {
     "The page you requested was not found" : "A página que você busca não foi encontrada",
     "Account" : "Conta",
     "Login" : "Entrar",
-    "Sign in with" : "Entrar com o"
+    "Sign in with" : "Entrar com o",
+    "Overview" : "Visão Geral",
+    "User Data" : "Dados de Usuário",
+    "Data edited successfully" : "Dados alterados com sucesso"
 }

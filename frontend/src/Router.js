@@ -17,6 +17,7 @@ const routes = [
   
   { name: 'admin', path: '/admin', component: require('./components/Admin/pages/Dashboard.vue') ,meta: {middleware: Auth}},
   { name: 'blank', path: '/admin/blank', component: require('./components/Admin/pages/PageBlank.vue') ,meta: {middleware: Auth}},
+  { name: 'account', path: '/admin/account', component: require('./components/Admin/pages/Account.vue') ,meta: {middleware: Auth}},
 
   { name: '404', path: '*' , component: require('./components/Global/Errors/NotFound.vue') },
 ]

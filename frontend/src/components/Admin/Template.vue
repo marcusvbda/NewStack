@@ -1,16 +1,16 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
             <router-link  class="navbar-brand" :to="{name:'admin'}" v-html="$constants.app_title_html" ></router-link >
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item" v-bind:class="{'active':$router.currentRoute.name.split('.')[0]=='admin'}">
+                    <li class="nav-item  d-flex align-items-center" v-bind:class="{'active':$router.currentRoute.name.split('.')[0]=='admin'}">
                         <router-link class="nav-link" :to="{name:'admin'}">Dashboard<span class="sr-only"></span></router-link>
                     </li>
-                    <li class="nav-item" v-bind:class="{'active':$router.currentRoute.name.split('.')[0]=='blank'}">
+                    <li class="nav-item  d-flex align-items-center" v-bind:class="{'active':$router.currentRoute.name.split('.')[0]=='blank'}">
                         <router-link class="nav-link" :to="{name:'blank'}" >Page Blank<span class="sr-only"></span></router-link>
                     </li>
                 </ul>
@@ -19,13 +19,13 @@
                         <change-language class="mr-3" />
                         <a @click.prevent="" class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{user.firstname}} {{user.lastname}}</a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown01">
-                            <a class="dropdown-item" href="#" @click.prevent="">
-                                <div class="d-flex justify-content-between">
+                            <router-link :to="{name:'account'}"  class="dropdown-item" href="#" @click.prevent="">
+                                <div class="d-flex justify-content-between  text-center">
                                     <div class="mr-3">{{$lang('Account')}}</div>
-                                    <div class="text-center id">ID : {{user._id}}</div>
+                                    <div class="text-center id">{{user._id}}</div>
                                 </div>
-                            </a>
-                            <a class="dropdown-item" href="#" @click.prevent="logout">{{$lang('Logout')}}</a>
+                            </router-link>
+                            <a class="dropdown-item text-center" href="#" @click.prevent="logout">{{$lang('Logout')}}</a>
                         </div>
                     </li>
                 </ul>
@@ -36,8 +36,8 @@
                 <router-link v-for="link in $root.sublinks" class="nav-link" v-bind:class="{'active' : link.active}" :to="{name:link.route}">{{link.name}}</router-link>
             </nav>
         </div>
-        <main role="main" class="flex-shrink-0" v-bind:class="{'mt-5' : $root.sublinks.length>0, 'mt-3' : $root.sublinks.length<=0}">
-            <div class="content pt-5">
+        <main role="main" class="flex-shrink-0">
+            <div class="content">
                 <slot></slot>
             </div>
         </main>
@@ -92,7 +92,6 @@ export default {
         }
     }
     .submenu { 
-        position : fixed;
         width : 100%;
         font-weight: 100;
         font-size: 14px;
