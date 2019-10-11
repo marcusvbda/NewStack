@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+const Cookies = require("./helpers/Cookies").default
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -14,7 +16,7 @@ export default new Vuex.Store({
             return state.auth
         },
         language(state) {
-            let lang = localStorage.getItem('language')
+            let lang = Cookies.get('lang')
             if(lang)
                 state.language = lang
             return state.language
@@ -23,15 +25,15 @@ export default new Vuex.Store({
     mutations: {
         language(state,language) {
             state.language = language
-            localStorage.setItem('language',language)
+            Cookies.set("lang",language)
         },
         login(state,user) {
             state.auth.user = user
-            localStorage.setItem('Auth',JSON.stringify({user:user}))
+            Cookies.set("auth",JSON.stringify({user:user}),30)
         },
         logout(state) {
             state.auth.user = {}
-            localStorage.removeItem('Auth')
+            Cookies.remove('auth')
         }
     }
     
