@@ -21,24 +21,25 @@ export default {
             loading : false
         }
     },
+    beforeCreate() {
+        this.$update_csrf()
+    },
     mounted(){
         this.getUser()
     },
     methods: {
         getUser() {
             this.loading = this.$loading()
-            this.$update_csrf(() => {
-                this.$http.post(`${this.$constants.server_route}/auth/confirm_user`,{token:this.token}).then(res=>{
-                    res = res.data
-                    this.username = res.username
-                    this.loading = this.$loading()
-                    this.loading.close()
-                    this.redirected()
-                }).catch( er => {
-                    console.log(er)
-                    this.loading.close()
-                    this.$router.push({name:"login"})
-                })
+            this.$http.post(`${this.$constants.server_route}/auth/confirm_user`,{token:this.token}).then(res=>{
+                res = res.data
+                this.username = res.username
+                this.loading = this.$loading()
+                this.loading.close()
+                this.redirected()
+            }).catch( er => {
+                console.log(er)
+                this.loading.close()
+                this.$router.push({name:"login"})
             })
         },
         redirected() {

@@ -61,26 +61,27 @@ export default {
         'change-language' : require("../Global/ChangeLanguage.vue"),
         'the-mask' : TheMask
     },
+    beforeCreate() {
+        this.$update_csrf()
+    },
     methods: {
         confirm_email(rule, value, callback) {
             if(this.ruleForm.password!=value) return callback(new Error(this.$lang("Password not match")))
             return callback()
         },
         submitForm() {
-            this.$update_csrf(() => {
-                this.$refs.ruleForm.validate((valid) => {
-                    if (!valid) return
-                    this.loading = this.$loading()
-                    this.$http.post(`${this.$constants.server_route}/auth/recovery`,this.ruleForm).then(res=>{
-                        res = res.data
-                        if(res.message) this.$message({showClose: true, message : this.$lang(res.message.content,res.message.params),type: res.message.type})
-                        if(!res.success) return this.loading.close()
-                        this.$router.push({name:"login", query : { username:this.ruleForm.email }})
-                        this.loading.close()
-                    }).catch( er => {
-                        console.log(er)
-                        this.loading.close()
-                    })
+            this.$refs.ruleForm.validate((valid) => {
+                if (!valid) return
+                this.loading = this.$loading()
+                this.$http.post(`${this.$constants.server_route}/auth/recovery`,this.ruleForm).then(res=>{
+                    res = res.data
+                    if(res.message) this.$message({showClose: true, message : this.$lang(res.message.content,res.message.params),type: res.message.type})
+                    if(!res.success) return this.loading.close()
+                    this.$router.push({name:"login", query : { username:this.ruleForm.email }})
+                    this.loading.close()
+                }).catch( er => {
+                    console.log(er)
+                    this.loading.close()
                 })
             })
         }

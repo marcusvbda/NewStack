@@ -120,6 +120,9 @@ export default {
         ]
         this.getAccountData("overview")
     },
+    beforeCreate() {
+        this.$update_csrf()
+    },
     methods : {
         retype_confirm_pass(rule, value, callback) {
             if(!this.ruleForm.password) return callback()
@@ -130,34 +133,30 @@ export default {
             this.$refs.ruleForm.validate((valid) => {
                 if (!valid) return
                 this.loading = this.$loading()
-                this.$update_csrf(() => {
-                    this.$http.put(`${this.$constants.server_route}/account/put_data`,this.ruleForm).then(res=>{
-                        res = res.data
-                        if(res.message) this.$message({showClose: true, message : this.$lang(res.message.content,res.message.params),type: res.message.type})
-                        if(!res.success) return this.loading.close()
-                        this.ruleForm.password = null
-                        this.loading.close()
-                    }).catch( er => {
-                        console.log(er)
-                        this.loading.close()
-                    })
-                })
-            })
-        },
-        getAccountData() {
-            this.$update_csrf(() => {
-                this.loading = this.$loading()
-                this.$http.post(`${this.$constants.server_route}/account/get_data`,{type:'overview',user:this.$store.getters.auth.user}).then(res=>{
+                this.$http.put(`${this.$constants.server_route}/account/put_data`,this.ruleForm).then(res=>{
                     res = res.data
-                    this.provider = res.data.provider
-                    this.ruleForm._id = res.data._id
-                    this.ruleForm.firstname = res.data.firstname
-                    this.ruleForm.lastname  = res.data.lastname
+                    if(res.message) this.$message({showClose: true, message : this.$lang(res.message.content,res.message.params),type: res.message.type})
+                    if(!res.success) return this.loading.close()
+                    this.ruleForm.password = null
                     this.loading.close()
                 }).catch( er => {
                     console.log(er)
                     this.loading.close()
                 })
+            })
+        },
+        getAccountData() {
+            this.loading = this.$loading()
+            this.$http.post(`${this.$constants.server_route}/account/get_data`,{type:'overview',user:this.$store.getters.auth.user}).then(res=>{
+                res = res.data
+                this.provider = res.data.provider
+                this.ruleForm._id = res.data._id
+                this.ruleForm.firstname = res.data.firstname
+                this.ruleForm.lastname  = res.data.lastname
+                this.loading.close()
+            }).catch( er => {
+                console.log(er)
+                this.loading.close()
             })
         }
     }

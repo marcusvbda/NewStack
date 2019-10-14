@@ -71,22 +71,23 @@ export default {
         'change-language' : require("../Global/ChangeLanguage.vue"),
         'the-mask' : TheMask
     },
+    beforeCreate() {
+        this.$update_csrf()
+    },
     mounted(){
         this.getUser()
     },
     methods: {
         getUser() {
             this.loading = this.$loading()
-            this.$update_csrf(() => {
-                this.$http.post(`${this.$constants.server_route}/auth/check_user_renew`,{token:this.ruleForm.token}).then(res=>{
-                    res = res.data 
-                    this.loading = this.$loading()
-                    this.loading.close()
-                }).catch( er => {
-                    console.log(er)
-                    this.loading.close()
-                    this.$router.push({name:"login"})
-                })
+            this.$http.post(`${this.$constants.server_route}/auth/check_user_renew`,{token:this.ruleForm.token}).then(res=>{
+                res = res.data 
+                this.loading = this.$loading()
+                this.loading.close()
+            }).catch( er => {
+                console.log(er)
+                this.loading.close()
+                this.$router.push({name:"login"})
             })
         },
         confirm_pass(rule, value, callback) {
@@ -94,20 +95,18 @@ export default {
             return callback()
         },
         submitForm() {
-            this.$update_csrf(() => {
-                this.$refs.ruleForm.validate((valid) => {
-                    if (!valid) return
-                    this.loading = this.$loading()
-                    this.$http.post(`${this.$constants.server_route}/auth/renew_password`,this.ruleForm).then(res=>{
-                        res = res.data
-                        if(res.message) this.$message({showClose: true, message : this.$lang(res.message.content,res.message.params),type: res.message.type})
-                        if(!res.success) return this.loading.close()
-                        this.$router.push({name:"login", query : { username: res.data.username }})
-                        this.loading.close()
-                    }).catch( er => {
-                        console.log(er)
-                        this.loading.close()
-                    })
+            this.$refs.ruleForm.validate((valid) => {
+                if (!valid) return
+                this.loading = this.$loading()
+                this.$http.post(`${this.$constants.server_route}/auth/renew_password`,this.ruleForm).then(res=>{
+                    res = res.data
+                    if(res.message) this.$message({showClose: true, message : this.$lang(res.message.content,res.message.params),type: res.message.type})
+                    if(!res.success) return this.loading.close()
+                    this.$router.push({name:"login", query : { username: res.data.username }})
+                    this.loading.close()
+                }).catch( er => {
+                    console.log(er)
+                    this.loading.close()
                 })
             })
         }

@@ -94,6 +94,7 @@ export default {
         'change-language' : require("../Global/ChangeLanguage.vue")
     },
     beforeCreate() {
+        this.$update_csrf()
         if(this.$constants.facebook_app_id) {
             window.fbAsyncInit = () => {
                 FB.init({
@@ -136,21 +137,19 @@ export default {
             console.log('ERROR', error)
         },
         login() {
-            this.$update_csrf(() => {
-                this.loading = this.$loading()
-                this.$http.post(`${this.$constants.server_route}/auth/login`,this.ruleForm).then(res=>{
-                    res = res.data
-                    if(res.message) this.$message({showClose: true, message : this.$lang(res.message.content,res.message.params),type: res.message.type})
-                    if(!res.success)  return this.loading.close()
-                    let user = res.data
-                    this.$store.commit('login',user)
-                    this.$router.push({name:"admin"})
-                    this.loading.close()
-                }).catch( er => {
-                    console.log(er)
-                    this.$store.commit('logout',{})
-                    this.loading.close()
-                })
+            this.loading = this.$loading()
+            this.$http.post(`${this.$constants.server_route}/auth/login`,this.ruleForm).then(res=>{
+                res = res.data
+                if(res.message) this.$message({showClose: true, message : this.$lang(res.message.content,res.message.params),type: res.message.type})
+                if(!res.success)  return this.loading.close()
+                let user = res.data
+                this.$store.commit('login',user)
+                this.$router.push({name:"admin"})
+                this.loading.close()
+            }).catch( er => {
+                console.log(er)
+                this.$store.commit('logout',{})
+                this.loading.close()
             })
         },
         submitForm() {

@@ -128,6 +128,9 @@ export default {
         'change-language' : require("../Global/ChangeLanguage.vue"),
         'the-mask' : TheMask
     },
+    beforeCreate() {
+        this.$update_csrf()
+    },
     methods: {
         confirm_pass(rule, value, callback) {
             if(this.ruleForm.password!=value) return callback(new Error(this.$lang("Password not match")))
@@ -137,17 +140,15 @@ export default {
             this.$refs.ruleForm.validate((valid) => {
                 if (!valid) return
                 this.loading = this.$loading()
-                this.$update_csrf(() => {
-                    this.$http.post(`${this.$constants.server_route}/auth/signup`,this.ruleForm).then(res=>{
-                        res = res.data
-                        if(res.message) this.$message({showClose: true, message : this.$lang(res.message.content,res.message.params),type: res.message.type})
-                        if(!res.success) return this.loading.close()
-                        this.$router.push({name:"login", query : { username:this.ruleForm.username }})
-                        this.loading.close()
-                    }).catch( er => {
-                        console.log(er)
-                        this.loading.close()
-                    })
+                this.$http.post(`${this.$constants.server_route}/auth/signup`,this.ruleForm).then(res=>{
+                    res = res.data
+                    if(res.message) this.$message({showClose: true, message : this.$lang(res.message.content,res.message.params),type: res.message.type})
+                    if(!res.success) return this.loading.close()
+                    this.$router.push({name:"login", query : { username:this.ruleForm.username }})
+                    this.loading.close()
+                }).catch( er => {
+                    console.log(er)
+                    this.loading.close()
                 })
             })
         }
@@ -162,8 +163,6 @@ export default {
         font-size : 13px;
     }
     .card-signin {
-        // border: 0;
-        // border-radius: 1rem;
         box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
         overflow: hidden;
     }

@@ -17,7 +17,7 @@ Vue.use(locale)
 Vue.prototype.$http = axios
 Vue.prototype.$update_csrf = (callback = null) => {
   Vue.prototype.$http.defaults.withCredentials = true
-  Vue.prototype.$http.get(`${constants.server_route}/template/getcsrftoken`,{withCredentials: true}).then(res=>{
+  Vue.prototype.$http.get(`${constants.server_route}/protection/csrf_token`,{withCredentials: true}).then(res=>{
     Vue.prototype.$http.defaults.headers.common['X-CSRF-TOKEN'] = res.data.csrfToken
     Vue.prototype.$http.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
     return callback ? callback() : null
