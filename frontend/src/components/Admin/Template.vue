@@ -17,11 +17,10 @@
                 <ul class="navbar-nav">
                     <li class="ml-auto nav-item dropdown d-flex flex-row align-items-center">
                         <change-language class="mr-3" />
-                        <a v-if="user.avatar" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true">
-                            <img class="img-profile" :src="user.avatar" />
-                        </a>
-                        <a v-else @click.prevent="" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle d-flex align-items-center img-profile">
-                            <template class="text">{{user.firstname.substring(0, 1).toUpperCase()}}{{user.lastname.substring(0, 1).toUpperCase()}}</template>
+                        <a @click.prevent="" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle d-flex align-items-center">
+                            <span class="text-white username mr-2">{{user.firstname}} {{user.lastname}}</span>
+                            <img v-if="user.avatar" class="img-profile" :src="user.avatar" />
+                            <span v-else class="text img-profile d-flex align-items-center text-center justify-content-center">{{user.firstname.substring(0, 1).toUpperCase()}}{{user.lastname.substring(0, 1).toUpperCase()}}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown01">
                             <router-link :to="{name:'account'}"  class="dropdown-item" href="#" @click.prevent="">
@@ -76,6 +75,9 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+    .username {
+        text-transform: capitalize;
+    }
     .img-profile {
         border-radius: 100%;
         height: 35px;

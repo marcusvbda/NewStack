@@ -1,7 +1,7 @@
-var express = require('express')
-var router = express.Router()
+const express = require('express')
+const router = express.Router()
 
-var csrfProtection = require(__dirname+"/../middleware/csrfProtection")
+const csrfProtection = require(__dirname+"/../middleware/csrfProtection")
 
 router.get('/csrf_token',[csrfProtection], (req, res) => {
     let token = req.csrfToken()

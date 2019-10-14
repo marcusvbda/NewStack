@@ -11,7 +11,9 @@ const accountController = function() {
                 _id : user._id,
                 provider  : user.provider,
                 firstname : user.firstname,
-                lastname  : user.lastname
+                lastname  : user.lastname,
+                avatar    : user.avatar,
+                username  : user.username
             }
             return res.json({success : true, data : _user })
         } catch(error) {

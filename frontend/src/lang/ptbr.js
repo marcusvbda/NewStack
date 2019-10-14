@@ -63,5 +63,8 @@ export default {
     "Overview" : "Visão Geral",
     "User Data" : "Dados de Usuário",
     "Data edited successfully" : "Dados alterados com sucesso",
-    "Settings" : "Configurações"
+    "Settings" : "Configurações",
+    "Hello" : "Olá",
+    "%% have to be a valid image file" : "%% tem que ser um arquivo de imagem válido",
+    "Remove %%" : "Remover %%"
 }

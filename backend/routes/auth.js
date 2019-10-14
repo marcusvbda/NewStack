@@ -1,6 +1,6 @@
-var express = require('express')
-var router = express.Router()
-var csrfProtection   = require(__dirname+"/../middleware/csrfProtection")
+const express = require('express')
+const router = express.Router()
+const csrfProtection   = require(__dirname+"/../middleware/csrfProtection")
 const authController = require(__dirname+"/../controllers/authController")
 
 router.post('/login',[csrfProtection], authController.login)

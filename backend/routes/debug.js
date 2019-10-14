@@ -1,6 +1,6 @@
 
-var express = require('express')
-var router = express.Router()
+const express = require('express')
+const router = express.Router()
 const Mailer = require("../helpers/Mailer")
 
 router.get('/', async(req, res) => {
