@@ -118,10 +118,9 @@ export default {
             {active : true, name : this.$lang("User Data"), route : "account"},
             {active : false, name : this.$lang("Settings"), route : "settings"},
         ]
-        this.getAccountData("overview")
     },
     beforeCreate() {
-        this.$update_csrf()
+        this.$update_csrf(()=>this.getAccountData("overview"))
     },
     methods : {
         retype_confirm_pass(rule, value, callback) {

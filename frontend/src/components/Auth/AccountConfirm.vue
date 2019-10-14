@@ -22,10 +22,7 @@ export default {
         }
     },
     beforeCreate() {
-        this.$update_csrf()
-    },
-    mounted(){
-        this.getUser()
+        this.$update_csrf(()=>this.getUser())
     },
     methods: {
         getUser() {

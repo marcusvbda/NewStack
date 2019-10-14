@@ -17,7 +17,12 @@
                 <ul class="navbar-nav">
                     <li class="ml-auto nav-item dropdown d-flex flex-row align-items-center">
                         <change-language class="mr-3" />
-                        <a @click.prevent="" class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{user.firstname}} {{user.lastname}}</a>
+                        <a v-if="user.avatar" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true">
+                            <img class="img-profile" :src="user.avatar" />
+                        </a>
+                        <a v-else @click.prevent="" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle d-flex align-items-center img-profile">
+                            <template class="text">{{user.firstname.substring(0, 1).toUpperCase()}}{{user.lastname.substring(0, 1).toUpperCase()}}</template>
+                        </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown01">
                             <router-link :to="{name:'account'}"  class="dropdown-item" href="#" @click.prevent="">
                                 <div class="d-flex justify-content-between  text-center">
@@ -71,6 +76,15 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+    .img-profile {
+        border-radius: 100%;
+        height: 35px;
+        width: 35px;
+        background-color: #78909C;
+        font-weight: 500;
+        color: white!important;
+        font-size: 10px;
+    }
     .content {
         padding-left : 0px;
         padding-right : 0px;

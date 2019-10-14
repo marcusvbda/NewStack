@@ -35,6 +35,7 @@ const authController = function() {
         name = names.splice(0,1)
         let lastname     = names.join(" ")
         let provider     = req.body.provider
+        let avatar       = req.body.avatar
         let provider_id  = req.body.provider_id
         let email        = `${provider_id}@${provider}`
         let password     = this.crypto.createHash('md5').update(provider_id).digest("hex")
@@ -48,10 +49,12 @@ const authController = function() {
                 password    : provider_id, //method make the hash
                 firstname   : firstname,
                 lastname    : lastname,
+                avatar      : avatar,
                 email       : email,
             })
-            user = await user.save()
         }
+        user.avatar = avatar
+        user = await user.save()
         return {success : true, message : {content : "Welcome %%",type : "success", params : [user.firstname+" "+user.lastname] }, data : this.makeReturnUserToFrontEnd(user) }
     }
 
@@ -61,7 +64,10 @@ const authController = function() {
             firstname : user.firstname, 
             lastname  : user.lastname,
             email     : user.email,
-            username  : user.username
+            username  : user.username,
+            avatar    : user.avatar ? user.avatar : null,
+            provider  : user.provider ? user.provider : null,
+            provider_id  : user.provider_id ? user.provider_id : null
         }
     }
 

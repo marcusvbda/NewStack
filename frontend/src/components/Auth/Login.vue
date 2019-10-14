@@ -120,9 +120,11 @@ export default {
     methods: {
         onSignInSuccessFacebook (response) {
             FB.api('/me', user => {
+                console.log(user)
                 this.ruleForm.provider = "facebook"
                 this.ruleForm.username = user.name
                 this.ruleForm.provider_id = user.id
+                this.ruleForm.avatar = `http://graph.facebook.com/${user.id}/picture`
                 this.login()
             })
         },
@@ -131,6 +133,7 @@ export default {
             this.ruleForm.provider = "google"
             this.ruleForm.username = user.ig
             this.ruleForm.provider_id = user.Eea
+            this.ruleForm.avatar = user.Paa
             this.login()
         },
         onSignInError (error) {

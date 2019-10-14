@@ -16,7 +16,7 @@ const Cookies =  function() {
         let result = {}
         for(let i in parsed) {
             let aux = parsed[i].split("=")
-            result[aux[0].trim() ] = aux[1].trim() 
+            result[aux[0] ? aux[0].trim() : "" ] = aux[1] ? aux[1].trim() : "" 
         }
         return result
     }
