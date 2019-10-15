@@ -52,8 +52,9 @@ const authController = function() {
                 avatar      : avatar,
                 email       : email,
             })
-            user = await user.save()
         }
+        user.avatar = avatar
+        user = await user.save()
         return {success : true, message : {content : "Welcome %%",type : "success", params : [user.firstname+" "+user.lastname] }, data : this.makeReturnUserToFrontEnd(user) }
     }
 

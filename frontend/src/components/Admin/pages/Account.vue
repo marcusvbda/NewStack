@@ -5,7 +5,9 @@
                 <div class="card h-100">
                     <div class="card-body">
                         <div class="d-flex justify-content-center mt-3">
+                            <img v-if="(ruleForm.provider ? true : false)" :src="ruleForm.avatar" class="avatar-img">
                             <el-upload
+                                v-else
                                 v-loading="avatar_loading"
                                 class="avatar-uploader d-flex align-items-center justify-content-center"
                                 v-bind:class="{'color' : !ruleForm.avatar}"
@@ -22,7 +24,7 @@
                         <div class="text-center" v-if="ruleForm.avatar">
                             <a href="#" @click.prevent="removeAvatar" class="link">{{$lang('Remove %%',['Avatar'])}}</a>
                         </div>
-                        <div class="d-flex justify-content-center mt-4">
+                        <div class="d-flex justify-content-center mt-3">
                             <div>{{$lang('Hello')}}, <b>{{ruleForm.firstname}} {{ruleForm.lastname}}</b></div>
                         </div>
                         <div class="d-flex justify-content-center mt-2">
@@ -226,10 +228,14 @@ export default {
     background-color: #e0e0e0;
     padding: 5px 10px 5px 10px;
 }
-
+.avatar-img {
+    border-radius : 100%;
+    height : 100px;
+    width : 100px;
+}
 .avatar-uploader {
-    height : 150px;
-    width : 150px;
+    height : 100px;
+    width : 100px;
     border: 1px dashed #d9d9d9;
     border-radius: 100%;
     cursor: pointer;
@@ -240,14 +246,10 @@ export default {
         background-color : #78909C;
     }
     .avatar {
-       
         font-weight: 500;
         font-size: 40px;
         border-radius: 100%;
         padding: 20px;
-    }
-    .avatar-img {
-        width: 100%;
     }
 }
 </style>
