@@ -6,6 +6,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-center mt-3">
                             <el-upload
+                                v-loading="avatar_loading"
                                 class="avatar-uploader d-flex align-items-center justify-content-center"
                                 v-bind:class="{'color' : !ruleForm.avatar}"
                                 :action="`${$constants.server_route}/uploads/image`"
@@ -112,6 +113,7 @@ export default {
     },
     data() {
         return {
+            avatar_loading : false,
             loading : false,
             provider : null,
             ruleForm : {
@@ -145,16 +147,20 @@ export default {
     },
     methods : {
         removeAvatar() {
-            this.ruleForm.avatar = null
+            this.avatar_loading = true
+            setTimeout(() => {
+                this.ruleForm.avatar = null   
+                this.avatar_loading = false
+            },1000)
         },
         handleAvatarSuccess(res, file) {
             this.ruleForm.avatar = res.file
-            this.loading.close()
+            this.avatar_loading = false
       },
       beforeAvatarUpload(file) {
         const valids = ['image','jpeg','png']
         if (valids.includes(file.type)) return this.$message.error(this.$lang("%% have to be a valid image file",["Avatar"]))
-        this.loading = this.$loading()
+        this.avatar_loading = true
         return true
       },
         retype_confirm_pass(rule, value, callback) {
