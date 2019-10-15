@@ -18,7 +18,7 @@ app.use(cookieParser())
 
 app.use(cors({
   origin: (origin, callback) => {
-    console.log(origin)
+    return callback(null, true)
     let cors_white_list = process.env.CORS_WHITE_LIST.split(",")
     if (cors_white_list.indexOf(origin) !== -1 ) return callback(null, true)
     return  callback(new Error('Not allowed by CORS'))

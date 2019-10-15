@@ -13,7 +13,7 @@ import _lang from "./lang"
 Vue.use(ElementUi)
 Vue.use(lang)
 Vue.use(locale)
-Vue.prototype.$location = window.location
+
 Vue.prototype.$http = axios
 Vue.prototype.$update_csrf = (callback = null) => {
   Vue.prototype.$http.defaults.withCredentials = true

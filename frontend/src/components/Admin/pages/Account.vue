@@ -8,11 +8,11 @@
                             <el-upload
                                 class="avatar-uploader d-flex align-items-center justify-content-center"
                                 v-bind:class="{'color' : !ruleForm.avatar}"
-                                :action="`${$constants.server_route}/uploads`"
+                                :action="`${$constants.server_route}/uploads/image`"
                                 :show-file-list="false"
                                 :on-success="handleAvatarSuccess"
                                 :before-upload="beforeAvatarUpload">
-                                <img v-if="ruleForm.avatar" :src="ruleForm.avatar" class="avatar-img" :crossorigin="$location.origin">
+                                <img v-if="ruleForm.avatar" :src="ruleForm.avatar" class="avatar-img">
                                 <span v-else class="avatar">
                                     <template v-if="ruleForm.firstname&&ruleForm.lastname">{{ruleForm.firstname.substring(0, 1).toUpperCase()}}{{ruleForm.lastname.substring(0, 1).toUpperCase()}}</template>
                                 </span>
@@ -137,8 +137,7 @@ export default {
     },
     mounted() {
         this.$root.sublinks = [
-            {active : true, name : this.$lang("User Data"), route : "account"},
-            {active : false, name : this.$lang("Settings"), route : "settings"},
+            {active : true, name : this.$lang("User Data"), route : "account"}
         ]
     },
     beforeCreate() {
@@ -149,11 +148,13 @@ export default {
             this.ruleForm.avatar = null
         },
         handleAvatarSuccess(res, file) {
-            this.ruleForm.avatar = `${this.$constants.server_route}/${res.file.path}`
+            this.ruleForm.avatar = res.file
+            this.loading.close()
       },
       beforeAvatarUpload(file) {
         const valids = ['image','jpeg','png']
         if (valids.includes(file.type)) return this.$message.error(this.$lang("%% have to be a valid image file",["Avatar"]))
+        this.loading = this.$loading()
         return true
       },
         retype_confirm_pass(rule, value, callback) {
@@ -170,6 +171,7 @@ export default {
                     if(res.message) this.$message({showClose: true, message : this.$lang(res.message.content,res.message.params),type: res.message.type})
                     if(!res.success) return this.loading.close()
                     this.ruleForm.password = null
+                    this.refresh()
                     this.loading.close()
                 }).catch( er => {
                     console.log(er)
@@ -192,6 +194,13 @@ export default {
                 console.log(er)
                 this.loading.close()
             })
+        },
+        refresh() {
+            let user  = this.$store.getters.auth.user
+            user.avatar = this.ruleForm.avatar
+            user.firstname = this.ruleForm.firstname
+            user.lastname  = this.ruleForm.lastname
+            this.$store.commit('login',user)
         }
     }
 }
