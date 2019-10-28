@@ -27,7 +27,7 @@ export default {
     "Save" : "Salvar",
     "Go to login page" : "Ir para a página de Login",
     "%% is required field" : "%% é campo obrigatório",
-    "Input correct email address" : "Digite um endereço de email correto",
+    "Type correct email address" : "Digite um endereço de email correto",
     "Sign up now and test for free" : "Cadastre-se agora e teste de graça",
     "Fill in your credentials and sign in" : "Digite suas credenciais e entre",
     "Company Size" : "Tamanho da Empresa",

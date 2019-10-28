@@ -12,6 +12,7 @@ const accountController = function() {
                 provider  : user.provider,
                 firstname : user.firstname,
                 lastname  : user.lastname,
+                email     : user.email,
                 avatar    : user.avatar,
                 username  : user.username
             }

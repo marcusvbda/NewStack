@@ -13,4 +13,7 @@ export default {
 
 <style lang="scss">
   @import './styles/app.scss';
+  @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+  @import '../node_modules/element-ui/lib/theme-chalk/index.css';
+  @import '../node_modules/nprogress/nprogress.css';
 </style>

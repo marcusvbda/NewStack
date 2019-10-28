@@ -118,7 +118,7 @@ export default {
                 username: [{ required: true, message: this.$lang("%% is required field",[this.$lang("Username")]), trigger: 'change' }],
                 email   : [
                     { required: true, message: this.$lang("%% is required field",[this.$lang("Email")]), trigger: 'change' },
-                    { type: 'email', message: this.$lang("Input correct email address"), trigger: ['blur', 'change'] }
+                    { type: 'email', message: this.$lang("Type correct email address"), trigger: ['blur', 'change'] }
                 ],
             }
         }

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import NProgress from 'NProgress'
 import store from './Store'
 import Auth from './middleware/auth'
 
@@ -27,6 +28,15 @@ const router = new VueRouter({
   mode: 'history',
   store,
   routes
+})
+
+router.beforeResolve((to, from, next) => {
+  if (to.name)  NProgress.start()
+  next()
+})
+
+router.afterEach((to, from) => {
+  NProgress.done()
 })
 
 router.beforeEach((to, from, next) => {
