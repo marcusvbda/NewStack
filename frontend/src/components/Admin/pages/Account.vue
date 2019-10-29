@@ -60,44 +60,54 @@
                         <div class="card-header your-plan">
                             <i class="el-icon-user mr-2"></i>PERFIL
                         </div>
-                        <div class="card-body">
-                            <el-form :model="frmAccount" :rules="rulesAccount" ref="rulesAccount" label-width="120px" class="custom-form">
-                                <div class="d-flex flex-row">
-                                    <el-form-item class="col-md-6 col-sm-12 mb-1" :label="$lang('Firstname')">
-                                        <el-input v-model="frmAccount.firstname"></el-input>
-                                    </el-form-item>
-                                    <el-form-item class="col-md-6 col-sm-12 mb-1" :label="$lang('Lastname')">
-                                        <el-input v-model="frmAccount.lastname"></el-input>
-                                    </el-form-item>
+                        <div class="card-body account">
+                            <div class="d-flex mb-3">
+                                <div class="col-md-6 col-sm-12 d-flex flex-row">
+                                    <div class="label col-3 text-right">Nome</div>
+                                    <div class="value capitalize col-9">{{frmAccount.firstname}} {{frmAccount.lastname}}</div>
                                 </div>
-                                <div class="d-flex flex-row">
-                                    <el-form-item class="col-md-6 col-sm-12 mb-1" label="Email">
-                                        <el-input v-model="frmAccount.email"></el-input>
-                                    </el-form-item>
-                                    <el-form-item class="col-md-6 col-sm-12 mb-1" :label="$lang('Username')">
-                                        <el-input v-model="frmAccount.username"></el-input>
-                                    </el-form-item>
+                                <div class="col-md-6 col-sm-12 d-flex flex-row">
+                                    <div class="label col-3 text-right">Email</div>
+                                    <div class="value col-9">{{frmAccount.email}}</div>
                                 </div>
-                            </el-form>
+                            </div>
+                            <div class="d-flex">
+                                <div class="col-md-6 col-sm-12 d-flex flex-row">
+                                    <div class="label col-3 text-right">Usuário</div>
+                                    <div class="value col-9">{{frmAccount.username}}</div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 d-flex flex-row">
+                                    <div class="label col-3 text-right">Senha</div>
+                                    <div class="value col-9">****************</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card w-100 mt-4">
                         <div class="card-header your-plan">
                             <i class="el-icon-setting mr-2"></i>CONFIGURAÇÕES
                         </div>
-                        <div class="card-body">
-                            teste
+                        <div class="card-body settings d-flex flex-wrap">
+                            <el-switch active-color="#13ce66" class="col-md-4 col-sm-12 mb-3" v-for="i in 20" :key="i"  v-model="settings[i]" :active-text="`Setting ${i}`" />
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-12">
+            <div class="col-md-6 col-sm-12">
                 <div class="card h-100">
                     <div class="card-header your-plan">
                         <i class="el-icon-user mr-2"></i>SEU PLANO
                     </div>
-                    <div class="card-body">
-                        teste
+                    <div class="card-body plan d-flex">
+                        <div class="col-12">
+                            <div class="d-flex align-items-center flex column">
+                                <img class="col-md-1 px-0 icon" src="../public/assets/imgs/diamond.png" />
+                                <div class="col-md-11">
+                                    <div class="label">Plano</div>
+                                    <div class="type">Diamante</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -113,6 +123,7 @@ export default {
         return {
             avatar_loading : false,
             loading : false,
+            settings : [],
             frmAccount : {
                 _id : null,
                 firstname : null,
@@ -120,15 +131,15 @@ export default {
                 email : null,
                 username : null,
             },
-            rulesAccount: {
-                firstname: [{ required: true, message: this.$lang("%% is required field",[this.$lang("Firstname")]), trigger: 'change' }],
-                lastname: [{ required: true, message: this.$lang("%% is required field",[this.$lang("Lastname")]), trigger: 'change' }],
-                username: [{ required: true, message: this.$lang("%% is required field",[this.$lang("Username")]), trigger: 'change' }],
-                email: [
-                    { required: true, message: this.$lang("%% is required field",[this.$lang("Lastname")]), trigger: 'change' },
-                    { type: "email", message: this.$lang("Type correct email address"), trigger: 'change' },
-                ],
-            }
+            // rulesAccount: {
+            //     firstname: [{ required: true, message: this.$lang("%% is required field",[this.$lang("Firstname")]), trigger: 'change' }],
+            //     lastname: [{ required: true, message: this.$lang("%% is required field",[this.$lang("Lastname")]), trigger: 'change' }],
+            //     username: [{ required: true, message: this.$lang("%% is required field",[this.$lang("Username")]), trigger: 'change' }],
+            //     email: [
+            //         { required: true, message: this.$lang("%% is required field",[this.$lang("Lastname")]), trigger: 'change' },
+            //         { type: "email", message: this.$lang("Type correct email address"), trigger: 'change' },
+            //     ],
+            // }
         }
     },
     watch: {
@@ -182,6 +193,20 @@ export default {
 }
 </script>
 <style lang="scss">
+.plan {
+    .icon {
+        width : 60px;
+    }
+    .type { 
+        color: #311b92;
+        font-weight: 600;
+        font-size: 18px;
+    }
+    .label {
+        color: #9a9a9a;
+        font-weight: 500;
+    }
+}
 .provider {
     &.icon {
         width: 30px;
@@ -221,26 +246,28 @@ export default {
     }
 }
 .account {
-    .name{
-        text-transform: capitalize;
-        .name{
-            font-size: 30px;
-            font-weight: 600;
-            color: #353a41;
-        }
-        .account-type {
-            margin-left: 20px;
-            border-radius: 20px;
-            background-color: #311b92;
-            color: white;
-            padding: 0px 20px 5px 20px;
-            font-weight: 100;
-        }
+    .value { 
+        color: #353a41;
+        font-weight: 700;
+        margin-left: 10px;
     }
-    .id {
-        color: #b6b6b6;
-        font-size: 20px;
+    .label { 
+        color: #c9c9c9;
+        font-weight: 400;
+    }
+    .account-type {
+        margin-left: 20px;
+        border-radius: 20px;
+        background-color: #311b92;
+        color: white;
+        padding: 0px 20px 5px 20px;
         font-weight: 100;
+        font-size : 13px;
+    }
+    .name {
+        font-size: 20px;
+        font-weight: 600;
+        color: #353a41;
     }
 }
 .company {
