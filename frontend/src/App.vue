@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="pb-4">
     <title>{{$constants.app_title}}</title>
     <router-view></router-view>
   </div>

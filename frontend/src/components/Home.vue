@@ -1,15 +1,16 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
-      <router-link class="navbar-brand" :to="{name:'home'}" v-html="$constants.app_title_html"></router-link>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse d-flex align-items-center" id="navbarsExampleDefault">
-        <change-language class="mr-3" />
-        <router-link class="text-white" :to="{name:'login'}">Login</router-link>
-      </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <router-link class="navbar-brand" :to="{name:'home'}" v-html="$constants.app_title_html"></router-link>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <span class="ml-auto navbar-text d-flex align-items-center">
+              <change-language class="mr-3" />
+              <router-link class="text-white" :to="{name:'login'}">Login</router-link>
+            </span>
+        </div>
     </nav>
 
     

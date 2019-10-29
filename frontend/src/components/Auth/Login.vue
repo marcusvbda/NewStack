@@ -1,9 +1,9 @@
 <template>
     <div class="p-4">
         <change-language />
-        <div class="login container">
+        <div class="login container px-0">
             <div class="d-flex align-items-center justify-content-center">
-                <div class="col-md-9 col-sm-12">
+                <div class="col-md-9 col-sm-12 px-0">
                     <div class="card card-signin flex-row my-5">
                         <div class="card-img-left d-none d-md-flex"></div>
                         <div class="card-body">
@@ -28,11 +28,11 @@
                                 
                                 <div class="d-flex flex-column text-right mt-4">
                                     <div class="d-flex flex-row">
-                                        <button href="#" class="button primary mr-auto" type="button" @click="submitForm">{{$lang("Login")}}</button>
+                                        <button href="#" class="button btn-sm-block primary mr-auto" type="button" @click="submitForm">{{$lang("Login")}}</button>
                                     </div>
-                                    <div class="d-flex justify-content-between flex-row mt-3 flex-wrap">
+                                    <div class="d-flex justify-content-between align-items-end flex-row mt-3 flex-wrap">
                                         <fb-signin-button
-                                            class="social-btn facebook"
+                                            class="button btn-sm-block social-btn facebook"
                                             v-if="$constants.facebook_app_id"
                                             :params="{}"
                                             @success="onSignInSuccessFacebook"
@@ -42,7 +42,7 @@
                                             </div>
                                         </fb-signin-button>
                                         <g-signin-button
-                                            class="social-btn google"
+                                            class="button btn-sm-block social-btn google mt-3"
                                             v-if="$constants.google_app_id"
                                             :params="{client_id:$constants.google_app_id,secret_key:$constants.google_app_secret}"
                                             @success="onSignInSuccessGoogle"

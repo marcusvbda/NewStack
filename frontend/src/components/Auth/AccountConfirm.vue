@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex justify-content-center align-items-center h-100" style="display:none!important;" ref="content">
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-4 col-sm-12 px-0">
             <div class="card congrats">
                 <div class="card-body d-flex flex-column">
                     <h1 class="text-center">{{$lang('Account Activated Successfully !!')}}</h1>

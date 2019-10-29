@@ -57,7 +57,7 @@ export default {
     "Renew Password" : "Renovar Senha",
     "Your password has been changed" : "Sua senha foi renovada",
     "The page you requested was not found" : "A página que você busca não foi encontrada",
-    "Account" : "Conta",
+    "my account" : "minha conta",
     "Login" : "Entrar",
     "Sign in with" : "Entrar com o",
     "Overview" : "Visão Geral",
@@ -66,5 +66,10 @@ export default {
     "Settings" : "Configurações",
     "Hello" : "Olá",
     "%% have to be a valid image file" : "%% tem que ser um arquivo de imagem válido",
-    "Remove %%" : "Remover %%"
+    "Remove %%" : "Remover %%",
+    "free" : "grátis",
+    "profile" : "perfil",
+    "Name" : "Nome",
+    "settings" : "configurações",
+    "plan" : "plano"
 }

@@ -1,9 +1,9 @@
 <template>
     <admin-template ref="template">
-        <div class="d-flex">
+        <div class="row">
             <div class="col-md-8 col-sm-12">
-                <div class="d-flex flex-row flex-wrap">
-                    <div class="mr-4">
+                <div class="d-flex flex-row flex-wrap align-items-center">
+                    <div class="mr-4 d-none d-lg-block">
                         <img v-if="(frmAccount.provider ? true : false)" :src="frmAccount.avatar" class="avatar-img">
                         <el-upload
                             v-else
@@ -23,88 +23,42 @@
                     <div class="account">
                         <div class="d-flex flex-row align-items-center name">
                             <div class="name pb-1">{{frmAccount.firstname}} {{frmAccount.lastname}}</div>
-                            <div class="account-type">Diamante</div>
+                            <div class="account-type capitalize">{{$lang("free")}}</div>
                         </div>
                         <div class="id">ID {{frmAccount._id}}</div>
-                        <div class="status-content d-flex mt-3">
-                            <div class="status active status active d-flex aling-items-center">
-                                <div class="icon-ball mr-2 active"></div>ATIVO
-                            </div>
-                        </div>
-                    </div>
-                    <div class="md-flex flex-column text-center flex-grow-1 company">
-                        <h4 class="title">Empresa</h4>
-                        <h4 class="name">Nome da empresa</h4>
                     </div>
                 </div>
-                <div class="follower-counter d-flex flex-row mt-4">
-                    <div class="follower-item col-md-3 col-sm-12">
-                        <div class="label">Seguidores No Instagram</div>
-                        <div class="count">25k</div>
-                    </div>
-                    <div class="follower-item col-md-3 col-sm-12 bordered">
-                        <div class="label">Seguidores No Instagram</div>
-                        <div class="count">25k</div>
-                    </div>
-                    <div class="follower-item col-md-3 col-sm-12 bordered">
-                        <div class="label">Seguidores No Instagram</div>
-                        <div class="count">25k</div>
-                    </div>
-                    <div class="follower-item col-md-3 col-sm-12 bordered">
-                        <div class="label">Seguidores No Instagram</div>
-                        <div class="count">25k</div>
-                    </div>
-                </div>
-                <div class="d-flex flex-column">
+                <div class="d-flex flex-column mb-4">
                     <div class="card w-100 mt-4">
                         <div class="card-header your-plan">
-                            <i class="el-icon-user mr-2"></i>PERFIL
+                            <i class="el-icon-user mr-2"></i>{{$lang("profile")}}
                         </div>
                         <div class="card-body account">
-                            <div class="d-flex mb-3">
-                                <div class="col-md-6 col-sm-12 d-flex flex-row">
-                                    <div class="label col-3 text-right">Nome</div>
-                                    <div class="value capitalize col-9">{{frmAccount.firstname}} {{frmAccount.lastname}}</div>
-                                </div>
-                                <div class="col-md-6 col-sm-12 d-flex flex-row">
-                                    <div class="label col-3 text-right">Email</div>
-                                    <div class="value col-9">{{frmAccount.email}}</div>
-                                </div>
-                            </div>
-                            <div class="d-flex">
-                                <div class="col-md-6 col-sm-12 d-flex flex-row">
-                                    <div class="label col-3 text-right">Usuário</div>
-                                    <div class="value col-9">{{frmAccount.username}}</div>
-                                </div>
-                                <div class="col-md-6 col-sm-12 d-flex flex-row">
-                                    <div class="label col-3 text-right">Senha</div>
-                                    <div class="value col-9">****************</div>
-                                </div>
-                            </div>
+                            account info
                         </div>
                     </div>
                     <div class="card w-100 mt-4">
                         <div class="card-header your-plan">
-                            <i class="el-icon-setting mr-2"></i>CONFIGURAÇÕES
+                            <i class="el-icon-setting mr-2 capitalize"></i>{{$lang("settings")}}
                         </div>
                         <div class="card-body settings d-flex flex-wrap">
-                            <el-switch active-color="#13ce66" class="col-md-4 col-sm-12 mb-3" v-for="i in 20" :key="i"  v-model="settings[i]" :active-text="`Setting ${i}`" />
+                            <el-switch active-color="#13ce66" class="col-md-4 col-sm-12 mb-3" v-for="i in 10" :key="i"  v-model="settings[i]" :active-text="`Setting ${i}`" />
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-12">
+            <div class="col-md-4 col-sm-12 mb-4">
                 <div class="card h-100">
                     <div class="card-header your-plan">
-                        <i class="el-icon-user mr-2"></i>SEU PLANO
+                        <i class="el-icon-user mr-2 capitalize"></i>{{$lang("plan")}}
                     </div>
                     <div class="card-body plan d-flex">
                         <div class="col-12">
                             <div class="d-flex align-items-center flex column">
-                                <img class="col-md-1 px-0 icon" src="../public/assets/imgs/diamond.png" />
+                                <img class="col-md-1 px-0 icon" :src="plan_icon" />
                                 <div class="col-md-11">
-                                    <div class="label">Plano</div>
-                                    <div class="type">Diamante</div>
+                                    <div class="label capitalize">{{$lang("plan")}}</div>
+                                    <div class="type capitalize">{{$lang("free")}}</div>
                                 </div>
                             </div>
                         </div>
@@ -140,6 +94,11 @@ export default {
             //         { type: "email", message: this.$lang("Type correct email address"), trigger: 'change' },
             //     ],
             // }
+        }
+    },
+    computed : {
+        plan_icon() {
+            return "../public/assets/imgs/free.png"
         }
     },
     watch: {
@@ -260,7 +219,7 @@ export default {
         border-radius: 20px;
         background-color: #311b92;
         color: white;
-        padding: 0px 20px 5px 20px;
+        padding: 0px 20px 2px 20px;
         font-weight: 100;
         font-size : 13px;
     }
@@ -270,60 +229,11 @@ export default {
         color: #353a41;
     }
 }
-.company {
-    .title {
-        color: #353a41;
-        font-weight: 900;
-    }
-    .name {
-        font-size: 15px;
-        font-weight: 400;
-    }
-}
 .your-plan{
     background-color:white;
     color: #9a9a9a;
     font-weight: 300;
     font-size: 18px;
-}
-.status-content {
-    .status {
-        background-color:white;
-        border-radius : 50px;
-        padding: 2px 10px 2px 10px;
-        font-size : 12px;
-        &.active {
-            color: #45c55e;
-        }
-        .icon-ball {
-            height : 18px;
-            width : 18px;
-            background-color : black;
-            border-radius : 100px;
-            &.active {
-                background-color: #45c55e;
-            }
-        }
-    }
-}
-.follower-counter {
-    border-bottom: 2px solid #d9d9d9;
-    .follower-item {
-        &.bordered {
-            border-left: 2px solid #d9d9d9;
-        }
-        .count {
-            font-size: 25px;
-            font-weight: 600;
-            padding-bottom: 20px;
-        }
-        .label {
-            color: #b4b4b4;
-            font-weight: 400;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-    }
 }
 .custom-form {
     .el-form-item__label { 

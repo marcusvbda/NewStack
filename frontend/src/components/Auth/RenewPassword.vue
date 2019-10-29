@@ -1,9 +1,9 @@
 <template>
     <div :loading="loading" class="p-4">
         <change-language />
-        <div class="signup container">
+        <div class="signup container px-0">
             <div class="d-flex align-items-center justify-content-center">
-                <div class="col-12 pt-4">
+                <div class="col-12 pt-4 px-0">
                     <span class="have_account">{{$lang('Already have an account?')}}</span><router-link :to="{name:'login'}" class="ml-2 link">{{$lang("Go to login page")}}</router-link>
                     <div class="card card-signin flex-row">
                         <div class="card-img-left d-none d-md-flex"></div>
@@ -14,8 +14,8 @@
                             </h5>
                             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="form-signin mt-3">
 
-                                <div class="d-flex">
-                                    <div class="col-md-6 col-sm-12 pl-0">
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12">
                                         <div class="form-label-group mb-2">
                                             <el-form-item prop="password">
                                                 <template slot="label"><b>{{$lang("New Password")}}</b></template>
@@ -23,7 +23,7 @@
                                             </el-form-item>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-sm-12 pr-0" v-if="ruleForm.password">
+                                    <div class="col-md-6 col-sm-12" v-if="ruleForm.password">
                                         <div class="form-label-group mb-2">
                                             <el-form-item prop="retype_password">
                                                 <template slot="label"><b>{{$lang("Retype Password")}}</b></template>
@@ -32,9 +32,12 @@
                                         </div>
                                     </div>
                                 </div> 
-
-                                <div class="d-flex flex-column mt-5">
-                                    <button :disabled="!(ruleForm.password && ruleForm.retype_password)" href="#" class="button primary mr-auto block" type="button" @click="submitForm">{{$lang("Renew Password")}}</button>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex flex-column mt-5">
+                                            <button :disabled="!(ruleForm.password && ruleForm.retype_password)" href="#" class="button btn-sm-block primary mr-auto block" type="button" @click="submitForm">{{$lang("Renew Password")}}</button>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </el-form>
@@ -119,7 +122,6 @@ export default {
     }
     .card-signin {
         border: 0;
-        border-radius: 1rem;
         box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
         overflow: hidden;
     }

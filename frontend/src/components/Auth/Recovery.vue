@@ -1,9 +1,9 @@
 <template>
     <div :loading="loading" class="p-4">
         <change-language />
-        <div class="signup container">
+        <div class="signup container px-0">
             <div class="d-flex align-items-center justify-content-center">
-                <div class="col-12 pt-4">
+                <div class="col-12 pt-4 px-0">
                     <span class="have_account">{{$lang("You didn't lose your password?")}}</span><router-link :to="{name:'login'}" class="ml-2 link">{{$lang("Go to login page")}}</router-link>
                     <div class="card card-signin flex-row">
                         <div class="card-img-left d-none d-md-flex"></div>
@@ -21,7 +21,7 @@
                                 </div>
 
                                 <div class="d-flex flex-column mt-5">
-                                    <button href="#" class="button primary mr-auto" type="button" @click="submitForm">{{$lang("Reset my password")}}</button>
+                                    <button href="#" class="button primary btn-sm-block mr-auto" type="button" @click="submitForm">{{$lang("Reset my password")}}</button>
                                 </div>
 
                             </el-form>
