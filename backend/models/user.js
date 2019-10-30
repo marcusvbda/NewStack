@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose')
-
 const schema = new Schema({
     firstname: {
         type: String,
@@ -28,6 +27,10 @@ const schema = new Schema({
     confirmtoken: {
         type: String
     },
+    user_settings: {
+        type: Array,
+        default : []
+    },
     email: {
         type: String,
         required: true,
@@ -49,6 +52,22 @@ const schema = new Schema({
     },
 },{
     timestamps: true
+})
+
+schema.virtual('fullname').get(function() {  
+    return this.firstname + ' ' + this.lastname
+})
+
+const model_settings = require("./settings")
+
+schema.virtual('settings').get(async function() {  
+    let all_settings = await model_settings.find({})
+    let settings = []
+    for(let i in all_settings) {
+        let local_settings = await this.user_settings.find(x => x._id == all_settings[i]._id)
+        settings.push({_id : all_settings[i]._id, index : all_settings[i].index, value : local_settings ? true : false})
+    }
+    return settings
 })
 
 module.exports = model('users', schema)

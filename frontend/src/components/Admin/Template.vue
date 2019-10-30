@@ -18,8 +18,10 @@
                 <ul class="navbar-nav">
                     <li class="nav-item d-flex align-items-center"><change-language class="mr-3 d-none d-lg-block" /></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{user.firstname}} {{user.lastname}}
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-white username mr-2">{{user.firstname}} {{user.lastname}}</span>
+                            <img v-if="user.avatar" class="img-profile" :src="user.avatar" />
+                            <span v-else class="text img-profile d-flex align-items-center text-center justify-content-center color">{{user.firstname.substring(0, 1).toUpperCase()}}{{user.lastname.substring(0, 1).toUpperCase()}}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <router-link :to="{name:'account'}"  class="dropdown-item text-center capitalize">{{$lang('my account')}}</router-link>

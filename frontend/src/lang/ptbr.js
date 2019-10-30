@@ -71,5 +71,8 @@ export default {
     "profile" : "perfil",
     "Name" : "Nome",
     "settings" : "configurações",
-    "plan" : "plano"
+    "plan" : "plano",
+    "edit" : "Editar",
+    "Attention" : "Atenção",
+    "Don't forget to save changes before leaving" : "Não se esqueça de salvar as alterações antes de sair"
 }

@@ -9,12 +9,15 @@ const accountController = function() {
             if(!user) return res.json({success : false, message : {content : "User not found",type : "error" }, data : null})
             let _user = {
                 _id : user._id,
+                fullname  : user.fullname,
                 provider  : user.provider,
                 firstname : user.firstname,
                 lastname  : user.lastname,
                 email     : user.email,
+                phone     : user.phone,
                 avatar    : user.avatar,
-                username  : user.username
+                username  : user.username,
+                settings  : await user.settings
             }
             return res.json({success : true, data : _user })
         } catch(error) {
