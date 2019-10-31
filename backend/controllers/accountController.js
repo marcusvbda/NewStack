@@ -30,10 +30,11 @@ const accountController = function() {
             let data = req.body
             let user = await this.user_model.findOne({_id:data._id})
             if(!user) return res.json({success : false, message : {content : "Username not found" ,type : "error" }, data : null})
-
             for(let i in data["values"]) {
-                let value = data["values"][i]
-                user[value["index"]] = value["value"]
+                let values = data["values"][i]
+                for(let index in values) {
+                    user[index] = values[index]
+                }
             }
             await user.save()
             return res.json({success : true})

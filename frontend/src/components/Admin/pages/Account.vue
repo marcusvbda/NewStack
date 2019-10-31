@@ -92,7 +92,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <el-dialog :visible.sync="user_dialog_visible">
+                            <el-dialog :close-on-click-modal="false" :close-on-press-escape="false" :visible.sync="user_dialog_visible" :before-close="handleCloseDialog">
                                 <el-form :model="editing_form" :rules="editing_form_rules" ref="ruleForm" class="row form-signin mb-1">
                                     <div class="col-md-6 col-sm-12 form-label-group">
                                         <el-form-item prop="firstname">
@@ -188,7 +188,7 @@ export default {
             handler(val,index)  {
                 if(this.loaded){
                     let loading = this.$loading()
-                    this.updateInfoAccount("user_settings",val, () => {
+                    this.updateInfoAccount([{"user_settings" : val }], () => {
                         loading.close()
                     })
                 }
@@ -210,21 +210,37 @@ export default {
         this.$update_csrf(res => this.getAccountData("overview"))
     },
     methods : {
+        handleCloseDialog() {
+            this.$confirm(this.$lang("Are you sure you want to quit ?"), this.$lang("Confirm"), {
+                confirmButtonText: this.$lang("Yes"),
+                cancelButtonText: this.$lang("Não"),
+                type: 'warning'
+            }).then(() => {
+                this.user_dialog_visible = false
+                return true
+            }).catch( () => false)
+        },
         submitForm() {
             this.$refs.ruleForm.validate((valid) => {
                 if (!valid) return
-                // this.loading = this.$loading()
-                // console.log(this.editing_form)
-                // this.$http.post(`${this.$constants.server_route}/auth/signup`,this.ruleForm).then(res=>{
-                //     res = res.data
-                //     if(res.message) this.$message({showClose: true, message : this.$lang(res.message.content,res.message.params),type: res.message.type})
-                //     if(!res.success) return this.loading.close()
-                //     this.$router.push({name:"login", query : { username:this.ruleForm.username }})
-                //     this.loading.close()
-                // }).catch( er => {
-                //     console.log(er)
-                //     this.loading.close()
-                // })
+                let loading = this.$loading()
+                let data = [
+                    {firstname : this.editing_form.firstname},
+                    {lastname  : this.editing_form.lastname}
+                ]
+                this.updateInfoAccount(data, () => {
+                    let user  = this.$store.getters.auth.user
+                    console.log(data)
+                    for(let i in data) {
+                        let row = data[i]
+                        for(let index in row) {
+                            user[index] = row[index]
+                        }
+                    }
+                    this.$store.commit('login',user)
+                    loading.close()
+                    this.user_dialog_visible = false
+                })
             })
         },
         openEditModal() {
@@ -233,7 +249,7 @@ export default {
         },
         removeAvatar() {
             this.avatar_loading = true
-            this.updateInfoAccount("avatar",null, () => {
+            this.updateInfoAccount([{avatar:null}], () => {
                 this.user.avatar = null   
                 let user  = this.$store.getters.auth.user
                 user.avatar = null
@@ -243,7 +259,7 @@ export default {
         },
         handleAvatarSuccess(res, file) {
             this.user.avatar = res.file
-            this.updateInfoAccount("avatar",res.file, () => {
+            this.updateInfoAccount([{avatar:res.file}], () => {
                 let user  = this.$store.getters.auth.user
                 user.avatar = res.file
                 this.$store.commit('login',user)
@@ -256,8 +272,8 @@ export default {
             this.avatar_loading = true
             return true
         },
-        updateInfoAccount(index,value,callback = () => {}) {
-            this.$http.put(`${this.$constants.server_route}/account/put_data`,{_id : this.user._id, values: [{index,value}] }).then(res=>{
+        updateInfoAccount(values,callback = () => {}) {
+            this.$http.put(`${this.$constants.server_route}/account/put_data`,{_id : this.user._id, values }).then(res=>{
                 res = res.data
                 if(res.message) this.$message({showClose: true, message : this.$lang(res.message.content,res.message.params),type: res.message.type})
                 callback()
