@@ -230,11 +230,11 @@ export default {
                 ]
                 this.updateInfoAccount(data, () => {
                     let user  = this.$store.getters.auth.user
-                    console.log(data)
                     for(let i in data) {
                         let row = data[i]
                         for(let index in row) {
                             user[index] = row[index]
+                            this.user[index] = row[index]
                         }
                     }
                     this.$store.commit('login',user)
@@ -372,6 +372,11 @@ export default {
             font-size: 18px;
             font-weight: 500;
         }
+    }
+    .id {
+        color: gray;
+        font-weight: 100;
+        opacity: 0.7;
     }
     .label { 
         color: #c9c9c9;
