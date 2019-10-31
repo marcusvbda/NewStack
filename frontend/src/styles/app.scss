@@ -95,3 +95,12 @@ a {
     }
   }
 }
+
+@media (max-width: 768px) {
+  .el-dialog__wrapper {
+    .el-dialog {
+      margin: unset!important;
+      width: 100%;
+    }
+  }
+}

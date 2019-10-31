@@ -65,7 +65,7 @@ schema.virtual('settings').get(async function() {
     let settings = []
     for(let i in all_settings) {
         let local_settings = await this.user_settings.find(x => x._id == all_settings[i]._id)
-        settings.push({_id : all_settings[i]._id, index : all_settings[i].index, value : local_settings ? true : false})
+        settings.push({_id : all_settings[i]._id, index : all_settings[i].index, value : local_settings ? local_settings.value : false})
     }
     return settings
 })

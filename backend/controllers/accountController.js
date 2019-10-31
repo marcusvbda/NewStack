@@ -30,12 +30,13 @@ const accountController = function() {
             let data = req.body
             let user = await this.user_model.findOne({_id:data._id})
             if(!user) return res.json({success : false, message : {content : "Username not found" ,type : "error" }, data : null})
-            user.firstname = data.firstname
-            user.lastname  = data.lastname
-            user.avatar    = data.avatar
-            if(data.password) user.password = this.crypto.createHash('md5').update(data.password).digest("hex") 
+
+            for(let i in data["values"]) {
+                let value = data["values"][i]
+                user[value["index"]] = value["value"]
+            }
             await user.save()
-            return res.json({success : true, data : user,message : {content : "Data edited successfully", type : "success" } })
+            return res.json({success : true})
         } catch(error) {
             return res.json({success : false , message : {content : error.message, type:"error"} , data : null })
         }

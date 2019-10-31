@@ -89,7 +89,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="d-flex flex-column mt-5">
-                                            <button :disabled="!ruleForm.confirm" href="#" class="button btn-sm-block primary mr-auto" type="button" @click="submitForm">{{$lang("Create")}}</button>
+                                            <button :disabled="!ruleForm.confirm" class="button btn-sm-block primary mr-auto" type="button" @click="submitForm">{{$lang("Create")}}</button>
                                         </div>
                                     </div>
                                 </div>

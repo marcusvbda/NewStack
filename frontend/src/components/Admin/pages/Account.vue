@@ -1,8 +1,5 @@
 <template>
     <admin-template ref="template">
-        <div v-if="changed" class="alert alert-warning fade show" role="alert">
-            <strong>{{$lang("Attention")}}</strong> {{$lang("Don't forget to save changes before leaving")}}
-        </div>
         <div class="row">
             <div class="col-md-9 col-sm-12">
                 <div class="d-flex flex-row flex-wrap align-items-center">
@@ -22,6 +19,9 @@
                                 <template v-if="user.firstname&&user.lastname">{{user.firstname.substring(0, 1).toUpperCase()}}{{user.lastname.substring(0, 1).toUpperCase()}}</template>
                             </span>
                         </el-upload>
+                        <div class="text-center" v-if="user.avatar">
+                            <a href="#" @click.prevent="removeAvatar" class="text-danger link">{{$lang('Remove %%',['Avatar'])}}</a>
+                        </div>
                     </div>
                     <div class="account">
                         <div class="d-flex flex-row align-items-center name">
@@ -35,7 +35,7 @@
                     <div class="card w-100 mt-4">
                         <div class="card-header your-plan d-flex align-items-center justify-content-between">
                             <div class="capitalize"><i class="el-icon-user mr-2"></i>{{$lang("profile")}}</div>
-                            <div v-if="!user_dialog_visible"><a href="#" @click.prevent="user_dialog_visible = true"><i class="el-icon-edit mr-2"></i>{{$lang("edit")}}</a></div>
+                            <div v-if="!user_dialog_visible"><a href="#" @click.prevent="openEditModal"><i class="el-icon-edit mr-2"></i>{{$lang("edit")}}</a></div>
                         </div>
                         <div class="card-body account">
                             <div class="row">
@@ -93,13 +93,31 @@
                                 </div>
                             </div>
                             <el-dialog :visible.sync="user_dialog_visible">
-                                <h1>MODAL</h1>
+                                <el-form :model="editing_form" :rules="editing_form_rules" ref="ruleForm" class="row form-signin mb-1">
+                                    <div class="col-md-6 col-sm-12 form-label-group">
+                                        <el-form-item prop="firstname">
+                                            <template slot="label" class="mb-0"><b>{{$lang("Firstname")}}</b></template>
+                                            <el-input v-model="editing_form.firstname"  :placeholder="$lang('Firstname')" autofocus></el-input>
+                                        </el-form-item>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 form-label-group">
+                                        <el-form-item prop="lastname">
+                                            <template slot="label" class="mb-0"><b>{{$lang("Lastname")}}</b></template>
+                                            <el-input v-model="editing_form.lastname"  :placeholder="$lang('Lastname')"></el-input>
+                                        </el-form-item>
+                                    </div>
+                                </el-form >
+                                <div class="d-flex mt-4 justify-content-end">
+                                    <div class="col-md-4 col-sm-12 text-right px-0">
+                                        <button class="button btn-sm-block primary" type="button" @click="submitForm">{{$lang("Save")}}</button>
+                                    </div>
+                                </div>
                             </el-dialog>
                         </div>
                     </div>
                     <div class="card w-100 mt-4" v-if="user.settings.length>0">
                         <div class="card-header your-plan capitalize">
-                            <i class="el-icon-setting mr-2"></i>{{$lang("settings")}}
+                            <i class="el-icon-setting mr-2"></i>{{$lang("settings")}} 
                         </div>
                         <div class="card-body settings d-flex flex-wrap">
                             <template v-for="(s,i) in user.settings">
@@ -140,9 +158,9 @@ export default {
             avatar_loading : false,
             loading : false,
             user_dialog_visible : false,
-            changed : false,
-            loaded : false,
             settings : [],
+            editing_form : {},
+            loaded : false,
             user : {
                 _id : null,
                 fullname : null,
@@ -154,32 +172,33 @@ export default {
                 settings : [],
                 fake_pass : "***************"
             },
-            // rulesAccount: {
-            //     firstname: [{ required: true, message: this.$lang("%% is required field",[this.$lang("Firstname")]), trigger: 'change' }],
-            //     lastname: [{ required: true, message: this.$lang("%% is required field",[this.$lang("Lastname")]), trigger: 'change' }],
-            //     username: [{ required: true, message: this.$lang("%% is required field",[this.$lang("Username")]), trigger: 'change' }],
-            //     email: [
-            //         { required: true, message: this.$lang("%% is required field",[this.$lang("Lastname")]), trigger: 'change' },
-            //         { type: "email", message: this.$lang("Type correct email address"), trigger: 'change' },
-            //     ],
-            // }
+            editing_form_rules: {
+                firstname: [{ required: true, message: this.$lang("%% is required field",[this.$lang("Firstname")]), trigger: 'change' }],
+                lastname: [{ required: true, message: this.$lang("%% is required field",[this.$lang("Lastname")]), trigger: 'change' }],
+                username: [{ required: true, message: this.$lang("%% is required field",[this.$lang("Username")]), trigger: 'change' }],
+                email: [
+                    { required: true, message: this.$lang("%% is required field",[this.$lang("Lastname")]), trigger: 'change' },
+                    { type: "email", message: this.$lang("Type correct email address"), trigger: 'change' },
+                ],
+            }
+        }
+    },
+    watch : {
+        "user.settings" : {
+            handler(val,index)  {
+                if(this.loaded){
+                    let loading = this.$loading()
+                    this.updateInfoAccount("user_settings",val, () => {
+                        loading.close()
+                    })
+                }
+            },
+            deep : true
         }
     },
     computed : {
         plan_icon() {
             return "../public/assets/imgs/free.png"
-        }
-    },
-    watch: {
-        user : {
-            handler(){
-                if(!this.loaded) {
-                    this.loaded = true   
-                    return false                 
-                }
-                this.changed = true
-            },
-            deep : true
         }
     },
     mounted() {
@@ -191,22 +210,61 @@ export default {
         this.$update_csrf(res => this.getAccountData("overview"))
     },
     methods : {
+        submitForm() {
+            this.$refs.ruleForm.validate((valid) => {
+                if (!valid) return
+                // this.loading = this.$loading()
+                // console.log(this.editing_form)
+                // this.$http.post(`${this.$constants.server_route}/auth/signup`,this.ruleForm).then(res=>{
+                //     res = res.data
+                //     if(res.message) this.$message({showClose: true, message : this.$lang(res.message.content,res.message.params),type: res.message.type})
+                //     if(!res.success) return this.loading.close()
+                //     this.$router.push({name:"login", query : { username:this.ruleForm.username }})
+                //     this.loading.close()
+                // }).catch( er => {
+                //     console.log(er)
+                //     this.loading.close()
+                // })
+            })
+        },
+        openEditModal() {
+            this.editing_form = Object.assign({},this.user)
+            this.user_dialog_visible = true
+        },
         removeAvatar() {
             this.avatar_loading = true
-            setTimeout(() => {
+            this.updateInfoAccount("avatar",null, () => {
                 this.user.avatar = null   
+                let user  = this.$store.getters.auth.user
+                user.avatar = null
+                this.$store.commit('login',user)
                 this.avatar_loading = false
-            },1000)
+            })
         },
         handleAvatarSuccess(res, file) {
             this.user.avatar = res.file
-            this.avatar_loading = false
+            this.updateInfoAccount("avatar",res.file, () => {
+                let user  = this.$store.getters.auth.user
+                user.avatar = res.file
+                this.$store.commit('login',user)
+                this.avatar_loading = false
+            })
         },
         beforeAvatarUpload(file) {
             const valids = ['image','jpeg','png']
             if (valids.includes(file.type)) return this.$message.error(this.$lang("%% have to be a valid image file",["Avatar"]))
             this.avatar_loading = true
             return true
+        },
+        updateInfoAccount(index,value,callback = () => {}) {
+            this.$http.put(`${this.$constants.server_route}/account/put_data`,{_id : this.user._id, values: [{index,value}] }).then(res=>{
+                res = res.data
+                if(res.message) this.$message({showClose: true, message : this.$lang(res.message.content,res.message.params),type: res.message.type})
+                callback()
+            }).catch( er => {
+                console.log(er)
+                this.loading.close()
+            })
         },
         getAccountData() {
             this.loading = this.$loading()
@@ -222,6 +280,7 @@ export default {
                 this.user.email     = res.data.email
                 this.user.settings  = res.data.settings
                 this.loading.close()
+                setTimeout( () => {this.loaded = true}, 300)
             }).catch( er => {
                 console.log(er)
                 this.loading.close()
