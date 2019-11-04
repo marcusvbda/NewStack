@@ -1,0 +1,17 @@
+export default {
+    "Create" : "Cadastrar",
+    "Username" : "Usuário",
+    "Save" : "Salvar",
+    "Welcome %%" : "Bem-Vindo %%",
+    "The Password is wrong" : "A senha está incorreta",
+    "Account not verified, check  your inbox and confirm" : "Conta não verificada, acesse seu email e confirme-a",
+    "Forget my password" : "Esqueci minha senha",
+    "%% is required field" : "%% é campo obrigatório",
+    "Type correct email address" : "Digite um endereço de email correto",
+    "Confirm" : "Confirmação",
+    "Yes" : "Sim",
+    "No" : "Não",
+    "Remove %%" : "Remover %%",
+    "settings" : "configurações",
+    "%% have to be a valid image file" : "%% tem que ser um arquivo de imagem válido",
+}
