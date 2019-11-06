@@ -74,8 +74,8 @@ export default {
         'change-language' : require("../Global/ChangeLanguage.vue"),
         'the-mask' : TheMask
     },
-    beforeCreate() {
-        this.$update_csrf(()=>this.getUser())
+    beforeRouteEnter (to, from, next) {
+        next( self => self.$update_csrf(()=>self.getUser()) )
     },
     methods: {
         getUser() {

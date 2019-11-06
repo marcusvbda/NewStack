@@ -94,7 +94,6 @@ export default {
         'change-language' : require("../Global/ChangeLanguage.vue")
     },
     beforeCreate() {
-        this.$update_csrf()
         if(this.$constants.facebook_app_id) {
             window.fbAsyncInit = () => {
                 FB.init({
@@ -114,13 +113,15 @@ export default {
             }(document, 'script', 'facebook-jssdk'))
         }    
     },
-    mounted() {
-        this.$store.commit('logout')
+    beforeRouteEnter(to, from, next) {
+        next( self => {
+            self.$store.commit('logout')
+            self.$update_csrf()
+        })
     },
     methods: {
         onSignInSuccessFacebook (response) {
             FB.api('/me', user => {
-                console.log(user)
                 this.ruleForm.provider = "facebook"
                 this.ruleForm.username = user.name
                 this.ruleForm.provider_id = user.id

@@ -39,6 +39,7 @@
         </div>
         <main role="main" class="flex-shrink-0">
             <div class="content">
+                <el-alert v-for="(alert,i) in alerts" class="mb-3" :title="alert.title" :type="alert.type" :description="alert.text" :show-icon="alert.icon" />
                 <slot></slot>
             </div>
         </main>
@@ -48,6 +49,7 @@
 export default {
     data() {
         return {
+            alerts : [],
             user : this.$store.getters.auth.user,
             active_menu : null
         }

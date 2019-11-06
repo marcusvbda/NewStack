@@ -201,13 +201,13 @@ export default {
             return "../public/assets/imgs/free.png"
         }
     },
-    mounted() {
-        this.$root.sublinks = [
-            {active : true, name : this.$lang("User Data"), route : "account"}
-        ]
-    },
-    beforeCreate() {
-        this.$update_csrf(res => this.getAccountData("overview"))
+    beforeRouteEnter(to, from, next) {
+        next( self => {
+            self.$root.sublinks = [
+                {active : true, name : self.$lang("User Data"), route : "account"}
+            ]
+            self.$update_csrf(res => self.getAccountData())
+        })
     },
     methods : {
         handleCloseDialog() {

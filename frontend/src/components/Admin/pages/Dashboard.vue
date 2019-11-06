@@ -1,5 +1,5 @@
 <template>
-    <admin-template>
+    <admin-template ref="template">
         <div class="d-flex flex-column">
             <div class="d-flex flex-wrap align-items-center">
                 <h4 class="title">{{$lang("My Bots")}}</h4>
@@ -22,8 +22,11 @@ export default {
     components : {
         'admin-template' : require("../Template.vue")
     },
-    mounted() {
-        this.$root.sublinks = [{active : true, name : "Dashboard", route : "admin"}]
+    beforeRouteEnter (to, from, next) {
+        next( self => {
+            // self.$refs.template.alerts.push({type:"warning", icon:true, title : "Message", text : "Some Message"})
+            self.$root.sublinks = [{active : true, name : "Dashboard", route : "admin"}]
+        })
     }
 }
 </script>
