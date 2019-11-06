@@ -149,6 +149,7 @@
     </admin-template>
 </template>
 <script>
+import NProgress from 'NProgress'
 export default {
     components : {
         'admin-template' : require("../Template.vue")
@@ -202,11 +203,12 @@ export default {
         }
     },
     beforeRouteEnter(to, from, next) {
+        NProgress.start()
         next( self => {
             self.$root.sublinks = [
                 {active : true, name : self.$lang("User Data"), route : "account"}
             ]
-            self.$update_csrf(res => self.getAccountData())
+            self.$update_csrf(res => self.getAccountData(_ => NProgress.done()))
         })
     },
     methods : {
@@ -282,7 +284,7 @@ export default {
                 this.loading.close()
             })
         },
-        getAccountData() {
+        getAccountData(callback) {
             this.loading = this.$loading()
             this.$http.post(`${this.$constants.server_route}/account/get_data`,{type:'overview',user:this.$store.getters.auth.user}).then(res=>{
                 res = res.data
@@ -297,6 +299,7 @@ export default {
                 this.user.settings  = res.data.settings
                 this.loading.close()
                 setTimeout( () => {this.loaded = true}, 300)
+                callback()
             }).catch( er => {
                 console.log(er)
                 this.loading.close()
