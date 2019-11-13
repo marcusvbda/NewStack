@@ -1,7 +1,6 @@
 var express = require('express')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
-var cors = require('cors')
 var mongoose = require('mongoose')
 require('dotenv').config()
 
@@ -11,16 +10,17 @@ app.use(bodyParser.json())
 
 mongoose.connect(process.env.DB_SERVER, {
   useNewUrlParser: true,
-  useUnifiedTopology:true
+  useUnifiedTopology: true
 })
 
 app.use(cookieParser())
 
+var cors = require('cors')
 app.use(cors({
   origin: (origin, callback) => {
     let cors_white_list = process.env.CORS_WHITE_LIST.split(",")
-    if (cors_white_list.indexOf(origin) !== -1 ) return callback(null, true)
-    return  callback(new Error('Not allowed by CORS'))
+    if (cors_white_list.indexOf(origin) !== -1) return callback(null, true)
+    return callback(new Error('Not allowed by CORS'))
   },
   credentials: true
 }))

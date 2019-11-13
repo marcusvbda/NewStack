@@ -37,6 +37,7 @@
                 <router-link v-for="link in $root.sublinks" class="nav-link" v-bind:class="{'active' : link.active}" :to="{name:link.route}">{{link.name}}</router-link>
             </nav>
         </div>
+        
         <main role="main" class="flex-shrink-0">
             <div class="content">
                 <el-alert v-for="(alert,i) in alerts" class="mb-3" :title="alert.title" :type="alert.type" :description="alert.text" :show-icon="alert.icon" />

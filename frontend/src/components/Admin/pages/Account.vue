@@ -33,7 +33,7 @@
                 </div>
                 <div class="d-flex flex-column mb-4">
                     <div class="card w-100 mt-4">
-                        <div class="card-header your-plan d-flex align-items-center justify-content-between">
+                        <div class="card-header d-flex align-items-center justify-content-between">
                             <div class="capitalize"><i class="el-icon-user mr-2"></i>{{$lang("profile")}}</div>
                             <div v-if="!user_dialog_visible"><a href="#" @click.prevent="openEditModal"><i class="el-icon-edit mr-2"></i>{{$lang("edit")}}</a></div>
                         </div>
@@ -116,7 +116,7 @@
                         </div>
                     </div>
                     <div class="card w-100 mt-4" v-if="user.settings.length>0">
-                        <div class="card-header your-plan capitalize">
+                        <div class="card-header capitalize">
                             <i class="el-icon-setting mr-2"></i>{{$lang("settings")}} 
                         </div>
                         <div class="card-body settings d-flex flex-wrap">
@@ -129,7 +129,7 @@
             </div>
             <div class="col-md-3 col-sm-12 mb-4">
                 <div class="card h-100">
-                    <div class="card-header your-plan capitalize">
+                    <div class="card-header apitalize">
                         <i class="el-icon-user mr-2"></i>{{$lang("plan")}}
                     </div>
                     <div class="card-body plan d-flex">
@@ -372,7 +372,6 @@ export default {
             padding-left : 0px;
             border: unset;
             background-color: transparent;
-            font-size: 18px;
             font-weight: 500;
         }
     }
@@ -399,11 +398,5 @@ export default {
         font-weight: 600;
         color: #353a41;
     }
-}
-.your-plan{
-    background-color:white;
-    color: #9a9a9a;
-    font-weight: 300;
-    font-size: 18px;
 }
 </style>
